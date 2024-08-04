@@ -1,4 +1,3 @@
-// src/components/TaskList/TaskList.js
 import React, { useState, useEffect } from 'react';
 import TaskListItem from './TaskListItems';
 import taskService from '../../TaskServices/TaskService';
@@ -33,13 +32,22 @@ const TaskList = () => {
     };
 
     return (
-        <div className="container">
-            <h2 className="my-4">Task List</h2>
-            <ul className="list-group">
-                {tasks.map(task => (
-                    <TaskListItem key={task.id} task={task} onDelete={() => handleDelete(task.id)} onEdit={handleEdit} />
-                ))}
-            </ul>
+        <div className="container mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
+            <h2 className="text-2xl font-bold mb-4 bg-blue-500 text-white p-3 rounded">Task List</h2>
+            <table className="min-w-full bg-white rounded">
+                <thead>
+                    <tr>
+                        <th className="py-2 px-4 bg-blue-200 text-left">Task Description</th>
+                        <th className="py-2 px-4 bg-blue-200 text-left">Created At</th>
+                        <th className="py-2 px-4 bg-blue-200 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {tasks.map(task => (
+                        <TaskListItem key={task.id} task={task} onDelete={() => handleDelete(task.id)} onEdit={handleEdit} />
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

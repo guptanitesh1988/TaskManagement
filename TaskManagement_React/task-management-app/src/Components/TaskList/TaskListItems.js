@@ -10,7 +10,7 @@ const TaskListItem = ({ task, onDelete, onEdit }) => {
     };
 
     const handleSave = async () => {
-        const editedTask = { ...task, name: editedDesc };
+        const editedTask = { ...task, description: editedDesc };
         try {
             await taskService.updateTask(task.id, editedTask);
             setIsEditing(false);
@@ -27,27 +27,30 @@ const TaskListItem = ({ task, onDelete, onEdit }) => {
     };
 
     return (
-        <li className="list-group-item">
-            {isEditing ? (
-                <div className="row">
-                    <div className="col">
-                        <input type="text" className="form-control" value={editedDesc} onChange={e => setEditedDesc(e.target.value)} required />
+        <tr className="border-b">
+            <td className="py-2 px-4">
+                {isEditing ? (
+                    <div className="flex items-center space-x-4">
+                        <input type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={editedDesc} onChange={e => setEditedDesc(e.target.value)} required />
+                        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleSave}>Save</button>
+                        <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleCancel}>Cancel</button>
                     </div>
-                    <div className="col-auto">
-                        <button className="btn btn-success me-2" onClick={handleSave}>Save</button>
-                        <button className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
+                ) : (
+                    <span>{task.description}</span>
+                )}
+            </td>
+            <td className="py-2 px-4">
+                <span>{task.createdAt}</span>
+            </td>
+            <td className="py-2 px-4">
+                {!isEditing && (
+                    <div className="space-x-2">
+                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={onDelete}>Delete</button>
+                        <button className="hidden bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleEdit}>Edit</button>
                     </div>
-                </div>
-            ) : (
-                <div className="d-flex justify-content-between align-items-center">
-                    <span>{task.description} </span>
-                    <div>
-                        <button className="btn btn-danger me-2" onClick={onDelete}>Delete</button>
-                        <button className="btn btn-primary" onClick={handleEdit}>Edit</button>
-                    </div>
-                </div>
-            )}
-        </li>
+                )}
+            </td>
+        </tr>
     );
 };
 
